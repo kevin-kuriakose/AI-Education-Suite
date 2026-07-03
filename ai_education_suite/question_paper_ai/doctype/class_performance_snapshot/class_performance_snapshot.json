@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "student_group",
+  "course",
+  "academic_term",
+  "generated_on",
+  "overall_average",
+  "weakness_table",
+  "ai_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Group",
+   "options": "Student Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Course",
+   "options": "Course",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term"
+  },
+  {
+   "fieldname": "generated_on",
+   "fieldtype": "Datetime",
+   "label": "Generated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "overall_average",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Overall Average",
+   "read_only": 1
+  },
+  {
+   "fieldname": "weakness_table",
+   "fieldtype": "Table",
+   "label": "Topic Weakness Breakdown",
+   "options": "Topic Weakness Detail"
+  },
+  {
+   "fieldname": "ai_notes",
+   "fieldtype": "Text",
+   "label": "AI Notes",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Question Paper AI",
+ "name": "Class Performance Snapshot",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

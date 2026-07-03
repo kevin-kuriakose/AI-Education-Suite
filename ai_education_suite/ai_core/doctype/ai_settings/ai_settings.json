@@ -1,0 +1,209 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enable_ai_features",
+  "section_break_api",
+  "groq_api_key",
+  "model",
+  "column_break_model",
+  "max_tokens",
+  "temperature",
+  "section_break_features",
+  "enable_risk_prediction",
+  "enable_grading_assist",
+  "enable_question_paper_ai",
+  "column_break_features2",
+  "enable_library_ai",
+  "enable_sports_ai",
+  "enable_house_allocation",
+  "column_break_features3",
+  "enable_admissions_ai",
+  "enable_query_assistant",
+  "section_break_thresholds",
+  "risk_high_threshold",
+  "risk_medium_threshold",
+  "column_break_thresholds2",
+  "grading_autoflag_delta",
+  "weak_topic_score_threshold"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "description": "Master switch. If off, every AI module refuses to call the API.",
+   "fieldname": "enable_ai_features",
+   "fieldtype": "Check",
+   "label": "Enable AI Features"
+  },
+  {
+   "fieldname": "section_break_api",
+   "fieldtype": "Section Break",
+   "label": "API Configuration"
+  },
+  {
+   "description": "Free tier from console.groq.com (no credit card required). Get one under API Keys in your Groq console.",
+   "fieldname": "groq_api_key",
+   "fieldtype": "Password",
+   "label": "Groq API Key",
+   "reqd": 0
+  },
+  {
+   "default": "llama-3.3-70b-versatile",
+   "description": "Free-tier Groq models. Qwen3 32B is the strongest for reasoning-heavy tasks (question papers, screening); Llama 3.3 70B is a solid all-rounder; Llama 3.1 8B / GPT-OSS 20B are fastest for simple, high-volume calls.",
+   "fieldname": "model",
+   "fieldtype": "Select",
+   "label": "Model",
+   "options": "llama-3.3-70b-versatile\nllama-3.1-8b-instant\nqwen/qwen3-32b\nopenai/gpt-oss-120b\nopenai/gpt-oss-20b"
+  },
+  {
+   "fieldname": "column_break_model",
+   "fieldtype": "Column Break",
+   "label": "Column Break Model"
+  },
+  {
+   "default": "1024",
+   "fieldname": "max_tokens",
+   "fieldtype": "Int",
+   "label": "Max Tokens"
+  },
+  {
+   "default": "0.3",
+   "description": "0 = deterministic/conservative, 1 = more creative. Keep low for grading/risk scoring.",
+   "fieldname": "temperature",
+   "fieldtype": "Float",
+   "label": "Temperature",
+   "precision": "1"
+  },
+  {
+   "fieldname": "section_break_features",
+   "fieldtype": "Section Break",
+   "label": "Feature Toggles"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_risk_prediction",
+   "fieldtype": "Check",
+   "label": "Enable Risk Prediction"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_grading_assist",
+   "fieldtype": "Check",
+   "label": "Enable Grading Assist"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_question_paper_ai",
+   "fieldtype": "Check",
+   "label": "Enable Question Paper AI"
+  },
+  {
+   "fieldname": "column_break_features2",
+   "fieldtype": "Column Break",
+   "label": "Column Break Features2"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_library_ai",
+   "fieldtype": "Check",
+   "label": "Enable Library AI"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_sports_ai",
+   "fieldtype": "Check",
+   "label": "Enable Sports AI"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_house_allocation",
+   "fieldtype": "Check",
+   "label": "Enable House Allocation"
+  },
+  {
+   "fieldname": "column_break_features3",
+   "fieldtype": "Column Break",
+   "label": "Column Break Features3"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_admissions_ai",
+   "fieldtype": "Check",
+   "label": "Enable Admissions AI"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_query_assistant",
+   "fieldtype": "Check",
+   "label": "Enable Query Assistant"
+  },
+  {
+   "fieldname": "section_break_thresholds",
+   "fieldtype": "Section Break",
+   "label": "Thresholds"
+  },
+  {
+   "default": "70",
+   "description": "risk_score >= this value is classified High/Critical.",
+   "fieldname": "risk_high_threshold",
+   "fieldtype": "Int",
+   "label": "Risk Score: High Threshold"
+  },
+  {
+   "default": "40",
+   "fieldname": "risk_medium_threshold",
+   "fieldtype": "Int",
+   "label": "Risk Score: Medium Threshold"
+  },
+  {
+   "fieldname": "column_break_thresholds2",
+   "fieldtype": "Column Break",
+   "label": "Column Break Thresholds2"
+  },
+  {
+   "default": "15",
+   "description": "If a teacher's final score differs from the AI suggestion by more than this many points, flag for review of the rubric/prompt.",
+   "fieldname": "grading_autoflag_delta",
+   "fieldtype": "Float",
+   "label": "Grading Override Flag Delta"
+  },
+  {
+   "default": "50",
+   "description": "Topics with class average below this % are treated as weak in Question Paper AI.",
+   "fieldname": "weak_topic_score_threshold",
+   "fieldtype": "Percent",
+   "label": "Weak Topic Score Threshold"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 1,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "AI Core",
+ "name": "AI Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

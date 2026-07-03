@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "topic",
+  "average_score",
+  "total_students",
+  "weak_student_count",
+  "weakness_level"
+ ],
+ "fields": [
+  {
+   "fieldname": "topic",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "average_score",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Average Score"
+  },
+  {
+   "fieldname": "total_students",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Students"
+  },
+  {
+   "fieldname": "weak_student_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Students Below Threshold"
+  },
+  {
+   "fieldname": "weakness_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Weakness Level",
+   "options": "Low\nMedium\nHigh"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Question Paper AI",
+ "name": "Topic Weakness Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

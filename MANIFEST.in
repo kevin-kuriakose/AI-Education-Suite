@@ -1,0 +1,4 @@
+include *.json
+include *.md
+include *.txt
+recursive-include ai_education_suite *.json *.md *.txt *.html *.js *.css *.py

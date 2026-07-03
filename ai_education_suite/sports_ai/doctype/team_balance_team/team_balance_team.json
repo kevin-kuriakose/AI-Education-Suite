@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "team_name",
+  "average_skill_score",
+  "students"
+ ],
+ "fields": [
+  {
+   "fieldname": "team_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Team Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "average_skill_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Average Skill Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "label": "Students",
+   "options": "Team Balance Student"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sports AI",
+ "name": "Team Balance Team",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

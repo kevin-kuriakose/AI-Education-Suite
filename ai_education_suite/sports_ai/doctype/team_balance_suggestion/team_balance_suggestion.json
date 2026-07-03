@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "sport",
+  "student_group",
+  "num_teams",
+  "generated_on",
+  "teams",
+  "balance_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sport",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sport",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group"
+  },
+  {
+   "default": "2",
+   "fieldname": "num_teams",
+   "fieldtype": "Int",
+   "label": "Number of Teams"
+  },
+  {
+   "fieldname": "generated_on",
+   "fieldtype": "Datetime",
+   "label": "Generated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "teams",
+   "fieldtype": "Table",
+   "label": "Teams",
+   "options": "Team Balance Team"
+  },
+  {
+   "fieldname": "balance_notes",
+   "fieldtype": "Text",
+   "label": "AI Balance Notes",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sports AI",
+ "name": "Team Balance Suggestion",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

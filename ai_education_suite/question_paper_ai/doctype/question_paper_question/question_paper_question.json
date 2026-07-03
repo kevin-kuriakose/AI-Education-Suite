@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "question_text",
+  "topic",
+  "marks",
+  "difficulty",
+  "question_type",
+  "expected_answer_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "question_text",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Question Text",
+   "reqd": 1
+  },
+  {
+   "fieldname": "topic",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic"
+  },
+  {
+   "fieldname": "marks",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Marks"
+  },
+  {
+   "fieldname": "difficulty",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Difficulty",
+   "options": "Easy\nMedium\nHard"
+  },
+  {
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "MCQ\nShort Answer\nLong Answer\nNumerical"
+  },
+  {
+   "fieldname": "expected_answer_notes",
+   "fieldtype": "Small Text",
+   "label": "Expected Answer / Marking Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Question Paper AI",
+ "name": "Question Paper Question",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

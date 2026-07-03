@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "assessment_result",
+  "student",
+  "student_name",
+  "course",
+  "assessment_criteria",
+  "column_break_1",
+  "max_score",
+  "suggested_score",
+  "teacher_final_score",
+  "override_delta",
+  "status",
+  "section_break_answer",
+  "question_reference",
+  "student_answer",
+  "section_break_ai",
+  "ai_rationale",
+  "section_break_review",
+  "reviewed_by",
+  "reviewed_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "assessment_result",
+   "fieldtype": "Link",
+   "label": "Assessment Result",
+   "options": "Assessment Result",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.student_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "assessment_criteria",
+   "fieldtype": "Link",
+   "label": "Assessment Criteria",
+   "options": "Assessment Criteria"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break",
+   "label": "Column Break 1"
+  },
+  {
+   "fieldname": "max_score",
+   "fieldtype": "Float",
+   "label": "Max Score",
+   "reqd": 1
+  },
+  {
+   "fieldname": "suggested_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "AI Suggested Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "teacher_final_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Teacher Final Score"
+  },
+  {
+   "description": "teacher_final_score - suggested_score",
+   "fieldname": "override_delta",
+   "fieldtype": "Float",
+   "label": "Override Delta",
+   "read_only": 1
+  },
+  {
+   "default": "Pending Review",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending Review\nAccepted\nOverridden"
+  },
+  {
+   "fieldname": "section_break_answer",
+   "fieldtype": "Section Break",
+   "label": "Question & Answer"
+  },
+  {
+   "fieldname": "question_reference",
+   "fieldtype": "Small Text",
+   "label": "Question / Rubric Reference"
+  },
+  {
+   "fieldname": "student_answer",
+   "fieldtype": "Text Editor",
+   "label": "Student Answer"
+  },
+  {
+   "fieldname": "section_break_ai",
+   "fieldtype": "Section Break",
+   "label": "AI Rationale"
+  },
+  {
+   "fieldname": "ai_rationale",
+   "fieldtype": "Text",
+   "label": "AI Rationale",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_review",
+   "fieldtype": "Section Break",
+   "label": "Review"
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Reviewed On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Grading Assist",
+ "name": "AI Grading Suggestion",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "student_name",
+ "track_changes": 1
+}

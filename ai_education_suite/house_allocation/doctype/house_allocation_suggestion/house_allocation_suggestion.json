@@ -1,0 +1,116 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "student",
+  "student_name",
+  "current_house",
+  "suggested_house",
+  "sibling_reference",
+  "balance_score_before",
+  "balance_score_after",
+  "reasoning",
+  "status",
+  "generated_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.student_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_house",
+   "fieldtype": "Link",
+   "label": "Current House",
+   "options": "House"
+  },
+  {
+   "fieldname": "suggested_house",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Suggested House",
+   "options": "House",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sibling_reference",
+   "fieldtype": "Small Text",
+   "label": "Sibling / Guardian Link Considered"
+  },
+  {
+   "fieldname": "balance_score_before",
+   "fieldtype": "Float",
+   "label": "Balance Score Before",
+   "read_only": 1
+  },
+  {
+   "fieldname": "balance_score_after",
+   "fieldtype": "Float",
+   "label": "Balance Score After",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reasoning",
+   "fieldtype": "Text",
+   "label": "Reasoning",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nAccepted\nRejected"
+  },
+  {
+   "fieldname": "generated_on",
+   "fieldtype": "Datetime",
+   "label": "Generated On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "House Allocation",
+ "name": "House Allocation Suggestion",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "student_name",
+ "track_changes": 1
+}

@@ -1,0 +1,131 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "student_applicant",
+  "applicant_name",
+  "program",
+  "ai_score",
+  "recommendation",
+  "strengths",
+  "concerns",
+  "generated_on",
+  "section_break_decision",
+  "reviewed_by",
+  "final_decision",
+  "decision_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "student_applicant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Applicant",
+   "options": "Student Applicant",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student_applicant.title",
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "label": "Applicant Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program",
+   "options": "Program"
+  },
+  {
+   "fieldname": "ai_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "AI Score (0-100)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recommendation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "AI Recommendation",
+   "options": "Strongly Recommend\nRecommend\nConsider\nNot Recommended",
+   "read_only": 1
+  },
+  {
+   "fieldname": "strengths",
+   "fieldtype": "Text",
+   "label": "Strengths",
+   "read_only": 1
+  },
+  {
+   "fieldname": "concerns",
+   "fieldtype": "Text",
+   "label": "Concerns",
+   "read_only": 1
+  },
+  {
+   "fieldname": "generated_on",
+   "fieldtype": "Datetime",
+   "label": "Generated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_decision",
+   "fieldtype": "Section Break",
+   "label": "Human Decision"
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "final_decision",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Final Decision",
+   "options": "Pending\nApproved\nRejected\nWaitlisted"
+  },
+  {
+   "fieldname": "decision_notes",
+   "fieldtype": "Small Text",
+   "label": "Decision Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Admissions AI",
+ "name": "Applicant Screening Result",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "applicant_name",
+ "track_changes": 1
+}
