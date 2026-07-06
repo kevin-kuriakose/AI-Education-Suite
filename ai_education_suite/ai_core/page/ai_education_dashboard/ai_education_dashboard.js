@@ -680,11 +680,26 @@ function ai_edu_append_chat_message($body, text, who) {
 
 function ai_edu_append_chat_results($body, doctype, results) {
 	const $messages = $body.find('#ai-edu-chat-messages');
+	const label_keys = ['name', 'student', 'title', 'applicant_name', 'student_name'];
 	const rows = results
 		.slice(0, 8)
 		.map(function (row) {
 			const label = ai_edu_get_result_label(row);
-			return `<div class="ai-edu-chat-result-row" data-doctype="${doctype}" data-name="${row.name}">${frappe.utils.escape_html(String(label))}</div>`;
+			const detail_bits = Object.keys(row)
+				.filter(function (k) {
+					return label_keys.indexOf(k) === -1 && row[k] !== null && row[k] !== undefined && row[k] !== '';
+				})
+				.map(function (k) {
+					const field_label = frappe.model && frappe.model.unscrub ? frappe.model.unscrub(k) : k;
+					return `<div class="ai-edu-chat-result-detail"><b>${frappe.utils.escape_html(field_label)}:</b> ${frappe.utils.escape_html(String(row[k]))}</div>`;
+				})
+				.join('');
+			return `
+				<div class="ai-edu-chat-result-row" data-doctype="${doctype}" data-name="${row.name}">
+					<div class="ai-edu-chat-result-title">${frappe.utils.escape_html(String(label))}</div>
+					${detail_bits}
+				</div>
+			`;
 		})
 		.join('');
 	const $block = $(`<div class="ai-edu-chat-msg ai-edu-chat-msg-ai ai-edu-chat-results">${rows}</div>`);
@@ -734,8 +749,11 @@ function inject_ai_edu_styles() {
 		.ai-edu-chat-msg-user { align-self:flex-end; background:#1d4ed8; color:#fff; }
 		.ai-edu-chat-msg-ai { align-self:flex-start; background:#1e293b; color:#e2e8f0; }
 		.ai-edu-chat-results { display:flex; flex-direction:column; gap:4px; }
-		.ai-edu-chat-result-row { background:#111827; border:1px solid #334155; border-radius:6px; padding:4px 8px; cursor:pointer; }
+		.ai-edu-chat-result-row { background:#111827; border:1px solid #334155; border-radius:6px; padding:8px 10px; cursor:pointer; }
 		.ai-edu-chat-result-row:hover { background:#1e293b; }
+		.ai-edu-chat-result-title { font-weight:600; margin-bottom:2px; }
+		.ai-edu-chat-result-detail { font-size:12px; color:#94a3b8; line-height:1.4; }
+		.ai-edu-chat-result-detail b { color:#cbd5e1; }
 		.ai-edu-chat-input-row { display:flex; gap:8px; }
 		.ai-edu-chat-input-row input { background:#0b1220 !important; color:#e2e8f0 !important; border:1px solid #334155 !important; }
 		.ai-edu-paper-status { background:#0f2130; border:1px solid #1e3a5f; border-radius:8px; padding:10px 14px; font-size:13px; color:#cbd5e1; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
