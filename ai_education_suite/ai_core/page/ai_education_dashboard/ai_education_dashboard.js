@@ -620,6 +620,12 @@ function ai_edu_load_houses_list(dialog) {
 	});
 }
 
+let ai_edu_chat_context = null;
+
+function ai_edu_get_result_label(row) {
+	return row.student || row.title || row.applicant_name || row.student_name || row.name;
+}
+
 function ai_edu_send_chat_query($body) {
 	const $input = $body.find('#ai-edu-chat-input');
 	const query_text = ($input.val() || '').trim();
@@ -630,7 +636,10 @@ function ai_edu_send_chat_query($body) {
 
 	frappe.call({
 		method: 'ai_education_suite.query_assistant.api.ask',
-		args: { query_text: query_text },
+		args: {
+			query_text: query_text,
+			context: ai_edu_chat_context ? JSON.stringify(ai_edu_chat_context) : null,
+		},
 		callback: function (r) {
 			$thinking.remove();
 			if (!r.message) {
@@ -642,6 +651,16 @@ function ai_edu_send_chat_query($body) {
 			ai_edu_append_chat_message($body, `${msg.explanation || ''} (${count_label})`, 'ai');
 			if (msg.results && msg.results.length) {
 				ai_edu_append_chat_results($body, msg.doctype, msg.results);
+				// Remember this turn so a follow-up like "this applicant" or
+				// "that student" can be resolved against it next time.
+				ai_edu_chat_context = {
+					doctype: msg.doctype,
+					results: msg.results.slice(0, 10).map(function (row) {
+						return { name: row.name, label: ai_edu_get_result_label(row) };
+					}),
+				};
+			} else {
+				ai_edu_chat_context = null;
 			}
 		},
 		error: function () {
@@ -664,7 +683,7 @@ function ai_edu_append_chat_results($body, doctype, results) {
 	const rows = results
 		.slice(0, 8)
 		.map(function (row) {
-			const label = row.student || row.title || row.applicant_name || row.name;
+			const label = ai_edu_get_result_label(row);
 			return `<div class="ai-edu-chat-result-row" data-doctype="${doctype}" data-name="${row.name}">${frappe.utils.escape_html(String(label))}</div>`;
 		})
 		.join('');

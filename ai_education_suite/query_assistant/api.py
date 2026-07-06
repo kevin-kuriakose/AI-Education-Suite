@@ -77,12 +77,33 @@ def _build_schema_context(valid_doctypes):
 
 
 @frappe.whitelist()
-def ask(query_text):
+def ask(query_text, context=None):
 	if not claude_client.is_module_enabled("enable_query_assistant"):
 		frappe.throw(_("Query Assistant is disabled in AI Settings."))
 
 	valid_doctypes = _get_valid_allowed_doctypes()
 	schema_context = _build_schema_context(valid_doctypes)
+
+	context_block = ""
+	if context:
+		try:
+			context_data = json.loads(context) if isinstance(context, str) else context
+			prev_doctype = context_data.get("doctype")
+			prev_results = context_data.get("results") or []
+			if prev_doctype and prev_results:
+				items = "; ".join(
+					f"{r.get('label')} (name={r.get('name')})" for r in prev_results[:10]
+				)
+				context_block = (
+					f"\n\nCONTEXT: the previous question in this conversation queried '{prev_doctype}' "
+					f"and found: {items}. If THIS question refers back to one of these (e.g. 'this "
+					"applicant', 'that student', 'his/her record'), add a filter on that doctype's "
+					"'name' field equal to the matching record's name shown above -- do not guess a "
+					"placeholder value."
+				)
+		except Exception:
+			pass
+
 	system = (
 		"You translate a staff member's plain-English question into a structured query over a "
 		"school management system. You may ONLY use one of the doctypes below, and ONLY the field "
@@ -92,6 +113,7 @@ def ask(query_text):
 		"Pick the single doctype that best matches the question's actual subject. In particular: "
 		"'Student' is already-ENROLLED students; a question about 'applicants', 'admissions', or "
 		"'screening' means 'Student Applicant' or 'Applicant Screening Result' instead, NOT 'Student'."
+		f"{context_block}"
 	)
 	prompt = (
 		f'Question: "{query_text}"\n\n'
