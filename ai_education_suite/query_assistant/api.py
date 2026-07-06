@@ -34,7 +34,7 @@ ALLOWED_DOCTYPES = [
 	"Assessment Result",
 	"Course Enrollment",
 	"Student Group",
-	"Student Fee Payment",
+	"Fees",
 	"Student Applicant",
 	"Student Risk Score",
 	"AI Grading Suggestion",
@@ -46,12 +46,20 @@ ALLOWED_DOCTYPES = [
 ]
 
 
-def _build_schema_context():
+def _get_valid_allowed_doctypes():
+	"""Filters ALLOWED_DOCTYPES down to ones that actually exist as installed
+	DocTypes right now. Protects against a typo'd/renamed/uninstalled
+	doctype in the static list causing a hard crash instead of just being
+	quietly excluded from what the assistant can query."""
+	return [dt for dt in ALLOWED_DOCTYPES if frappe.db.exists("DocType", dt)]
+
+
+def _build_schema_context(valid_doctypes):
 	"""Compact per-doctype field summary (name + type, with Select fields'
 	valid values shown in parentheses) so the model picks real field names
 	and real Select values instead of guessing generic ones."""
 	lines = []
-	for doctype in ALLOWED_DOCTYPES:
+	for doctype in valid_doctypes:
 		try:
 			meta = frappe.get_meta(doctype)
 		except Exception:
@@ -73,7 +81,8 @@ def ask(query_text):
 	if not claude_client.is_module_enabled("enable_query_assistant"):
 		frappe.throw(_("Query Assistant is disabled in AI Settings."))
 
-	schema_context = _build_schema_context()
+	valid_doctypes = _get_valid_allowed_doctypes()
+	schema_context = _build_schema_context(valid_doctypes)
 	system = (
 		"You translate a staff member's plain-English question into a structured query over a "
 		"school management system. You may ONLY use one of the doctypes below, and ONLY the field "
@@ -95,13 +104,21 @@ def ask(query_text):
 	spec = claude_client.call_claude_json(prompt, system=system, max_tokens=600)
 
 	doctype = spec.get("doctype")
-	if doctype not in ALLOWED_DOCTYPES:
-		frappe.throw(_("Query Assistant can only query: {0}").format(", ".join(ALLOWED_DOCTYPES)))
+	if doctype not in valid_doctypes:
+		frappe.throw(_("Query Assistant can only query: {0}").format(", ".join(valid_doctypes)))
 
 	meta = frappe.get_meta(doctype)
 	valid_fieldnames = {"name"} | {df.fieldname for df in meta.fields}
 
-	fields = [fld for fld in (spec.get("fields") or ["name"]) if fld in valid_fieldnames] or ["name"]
+	fields = [fld for fld in (spec.get("fields") or []) if fld in valid_fieldnames]
+	# Always include a usable label field and the docname itself, regardless
+	# of what the model asked for -- otherwise a query that only requests a
+	# filter field (e.g. just "application_status") comes back with nothing
+	# the UI can display or link to.
+	if meta.title_field and meta.title_field in valid_fieldnames and meta.title_field not in fields:
+		fields.append(meta.title_field)
+	if "name" not in fields:
+		fields.append("name")
 
 	filters = []
 	dropped_any = False
