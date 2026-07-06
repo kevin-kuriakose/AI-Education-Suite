@@ -128,3 +128,79 @@ def call_claude_json(prompt, system=None, max_tokens=None, model=None):
 	except json.JSONDecodeError as e:
 		frappe.log_error(title="Groq JSON Parse Error", message=f"{e}\n\nRaw response:\n{raw}")
 		raise ClaudeClientError(f"Could not parse Groq response as JSON: {e}")
+
+
+# Groq's current vision-capable models (as of the vision docs at
+# https://console.groq.com/docs/vision). Text-only models like
+# llama-3.3-70b-versatile CANNOT accept image_url content blocks, so vision
+# calls always use one of these regardless of what's set in AI Settings.
+DEFAULT_VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
+
+
+def call_claude_vision(prompt, image_data_urls, system=None, max_tokens=None, model=None, json_mode=False):
+	"""
+	Calls a Groq vision-capable model with one prompt + up to 5 images.
+	`image_data_urls` is a list of strings, each either a full data URL
+	(e.g. "data:image/jpeg;base64,...") or a plain https:// URL.
+	Returns the response text (or parsed JSON if json_mode=True).
+	"""
+	if not image_data_urls:
+		frappe.throw(_("At least one image is required for a vision call."))
+	if len(image_data_urls) > 5:
+		frappe.throw(_("Groq vision models accept a maximum of 5 images per request."))
+
+	settings = get_settings()
+	api_key = settings.get_password("groq_api_key")
+	chosen_model = model or DEFAULT_VISION_MODEL
+
+	content = [{"type": "text", "text": prompt}]
+	for url in image_data_urls:
+		content.append({"type": "image_url", "image_url": {"url": url}})
+
+	messages = []
+	if system:
+		messages.append({"role": "system", "content": system})
+	messages.append({"role": "user", "content": content})
+
+	payload = {
+		"model": chosen_model,
+		"max_completion_tokens": int(max_tokens or 2048),
+		"messages": messages,
+	}
+	if json_mode:
+		payload["response_format"] = {"type": "json_object"}
+
+	headers = {
+		"Authorization": f"Bearer {api_key}",
+		"content-type": "application/json",
+	}
+
+	try:
+		response = requests.post(GROQ_API_URL, headers=headers, data=json.dumps(payload), timeout=90)
+		response.raise_for_status()
+	except requests.exceptions.RequestException:
+		frappe.log_error(title="Groq Vision API Error", message=frappe.get_traceback())
+		raise ClaudeClientError("Groq vision API request failed. See Error Log for details.")
+
+	data = response.json()
+	choices = data.get("choices") or []
+	if not choices:
+		frappe.log_error(title="Groq Vision API Error", message=f"No choices in response:\n{data}")
+		raise ClaudeClientError("Groq vision API returned no choices.")
+
+	text = (choices[0].get("message", {}).get("content") or "").strip()
+
+	if json_mode:
+		cleaned = text
+		if cleaned.startswith("```"):
+			cleaned = cleaned.strip("`")
+			if cleaned.lower().startswith("json"):
+				cleaned = cleaned[4:]
+		cleaned = cleaned.strip()
+		try:
+			return json.loads(cleaned)
+		except json.JSONDecodeError as e:
+			frappe.log_error(title="Groq Vision JSON Parse Error", message=f"{e}\n\nRaw response:\n{text}")
+			raise ClaudeClientError(f"Could not parse Groq vision response as JSON: {e}")
+
+	return text

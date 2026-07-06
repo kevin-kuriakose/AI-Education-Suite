@@ -491,10 +491,11 @@ def create_ai_education_workspace():
 		return frappe.generate_hash(length=10)
 
 	shortcuts = [
-		("AI Settings", "AI Settings"),
-		("Student Risk Score", "Student Risk Score"),
-		("AI Grading Suggestion", "AI Grading Suggestion"),
-		("AI Question Paper Draft", "AI Question Paper Draft"),
+		("Open AI Dashboard", "ai-education-dashboard", "Page"),
+		("AI Settings", "AI Settings", "DocType"),
+		("Student Risk Score", "Student Risk Score", "DocType"),
+		("AI Grading Suggestion", "AI Grading Suggestion", "DocType"),
+		("AI Question Paper Draft", "AI Question Paper Draft", "DocType"),
 	]
 
 	# (card title, [(label, doctype), ...])
@@ -532,7 +533,7 @@ def create_ai_education_workspace():
 			"col": 12,
 		},
 	})
-	for label, _dt in shortcuts:
+	for label, _dt, _type in shortcuts:
 		content.append({"id": block_id(), "type": "shortcut", "data": {"shortcut_name": label, "col": 3}})
 	content.append({"id": block_id(), "type": "spacer", "data": {"col": 12}})
 	content.append({
@@ -556,8 +557,8 @@ def create_ai_education_workspace():
 	ws.sequence_id = 10
 	ws.content = json.dumps(content)
 
-	for label, dt in shortcuts:
-		ws.append("shortcuts", {"type": "DocType", "link_to": dt, "label": label})
+	for label, dt, link_type in shortcuts:
+		ws.append("shortcuts", {"type": link_type, "link_to": dt, "label": label})
 
 	idx = 0
 	for card_title, items in cards:
@@ -585,3 +586,36 @@ def dump_education_workspace():
 	for k in ["owner", "modified_by", "creation", "modified", "docstatus", "idx"]:
 		out.pop(k, None)
 	print(json.dumps(out, indent=2, default=str))
+
+
+def introspect_grading_workflow_doctypes():
+	"""Temporary helper: dumps schema for the doctypes the new grading-workflow
+	redesign depends on (Course Enrollment, Student Group + its child table),
+	so the new backend can be written against real field names. Read-only."""
+	doctypes = ["Course Enrollment", "Student Group", "Student Group Student"]
+	for dt in doctypes:
+		try:
+			meta = frappe.get_meta(dt)
+		except Exception as e:
+			print(f"=== {dt} === COULD NOT LOAD: {e}")
+			continue
+		print(f"=== {dt} === (istable={meta.istable}, is_submittable={meta.is_submittable})")
+		for f in meta.fields:
+			if f.fieldtype in ("Section Break", "Column Break", "Tab Break"):
+				continue
+			flags = []
+			if f.reqd:
+				flags.append("REQD")
+			if f.fieldtype == "Table":
+				flags.append(f"TABLE->{f.options}")
+			print(f"  {f.fieldname:30s} {f.fieldtype:15s} {(f.options or '')[:25]:25s} {' '.join(flags)}")
+		print()
+
+	# Also check whether the "Course Content" doctype genuinely doesn't exist
+	# anywhere, and if so, which installed doctype(s) reference it.
+	print("=== Checking for 'Course Content' doctype ===")
+	print("Exists:", frappe.db.exists("DocType", "Course Content"))
+	offenders = frappe.get_all(
+		"DocField", filters={"options": "Course Content"}, fields=["parent", "fieldname"]
+	)
+	print("Fields referencing it:", offenders)

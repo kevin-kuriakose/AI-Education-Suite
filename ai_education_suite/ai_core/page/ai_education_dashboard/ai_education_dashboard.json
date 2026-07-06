@@ -1,0 +1,14 @@
+{
+ "content": null,
+ "doctype": "Page",
+ "icon": "list",
+ "idx": 0,
+ "module": "AI Core",
+ "name": "ai-education-dashboard",
+ "page_name": "ai-education-dashboard",
+ "restrict_to_domain": null,
+ "roles": [],
+ "standard": "Yes",
+ "system_page": 0,
+ "title": "AI Education Suite"
+}

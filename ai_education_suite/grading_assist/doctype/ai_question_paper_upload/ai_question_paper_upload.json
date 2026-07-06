@@ -6,37 +6,44 @@
  "engine": "InnoDB",
  "field_order": [
   "course",
-  "topic_name",
-  "assessment_criteria",
-  "description"
+  "student_group",
+  "question_paper_image",
+  "uploaded_by",
+  "uploaded_on"
  ],
  "fields": [
   {
    "fieldname": "course",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Course",
+   "label": "Subject / Course",
    "options": "Course",
    "reqd": 1
   },
   {
-   "fieldname": "topic_name",
-   "fieldtype": "Data",
+   "fieldname": "student_group",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Topic Name",
+   "label": "Class / Section",
+   "options": "Student Group",
    "reqd": 1
   },
   {
-   "fieldname": "assessment_criteria",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Assessment Criteria",
-   "options": "Assessment Criteria"
+   "fieldname": "question_paper_image",
+   "fieldtype": "Attach",
+   "label": "Question Paper (photo)",
+   "reqd": 1
   },
   {
-   "fieldname": "description",
-   "fieldtype": "Small Text",
-   "label": "Description"
+   "fieldname": "uploaded_by",
+   "fieldtype": "Link",
+   "label": "Uploaded By",
+   "options": "User"
+  },
+  {
+   "fieldname": "uploaded_on",
+   "fieldtype": "Datetime",
+   "label": "Uploaded On"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -46,8 +53,8 @@
  "links": [],
  "modified": "2024-01-01 00:00:00.000000",
  "modified_by": "Administrator",
- "module": "Question Paper AI",
- "name": "Topic Tag",
+ "module": "Grading Assist",
+ "name": "AI Question Paper Upload",
  "owner": "Administrator",
  "permissions": [
   {
@@ -66,6 +73,6 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "topic_name",
+ "title_field": "course",
  "track_changes": 1
 }

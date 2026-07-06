@@ -9,6 +9,10 @@ app_version = "0.1.0"
 # This app extends the Education module and expects it to already be installed.
 required_apps = ["education"]
 
+# Loaded on every Desk page. Redirects the "AI Education Suite" workspace
+# straight to our custom dashboard page (see public/js/workspace_redirect.js).
+app_include_js = ["/assets/ai_education_suite/js/workspace_redirect.js"]
+
 # Doc Events
 # ----------
 # Hook into core Education doctypes without modifying them.
