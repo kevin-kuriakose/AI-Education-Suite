@@ -96,10 +96,13 @@ def ask(query_text, context=None):
 				)
 				context_block = (
 					f"\n\nCONTEXT: the previous question in this conversation queried '{prev_doctype}' "
-					f"and found: {items}. If THIS question refers back to one of these (e.g. 'this "
-					"applicant', 'that student', 'his/her record'), add a filter on that doctype's "
-					"'name' field equal to the matching record's name shown above -- do not guess a "
-					"placeholder value."
+					f"and found: {items}. If THIS question does not clearly name a different specific "
+					"person/record, ASSUME it is a follow-up about the same record(s) above (this "
+					"applies even without an explicit word like 'this' or 'that' -- e.g. 'list the "
+					"concerns', 'what about attendance', 'show more detail' all continue the previous "
+					"subject by default). In that case add a filter on that doctype's 'name' field "
+					"equal to the matching record's name shown above -- do not guess a placeholder value. "
+					"Only ignore this context if the question clearly asks about something else entirely."
 				)
 		except Exception:
 			pass
